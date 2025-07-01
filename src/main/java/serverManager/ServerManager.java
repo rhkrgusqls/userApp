@@ -7,7 +7,9 @@ public class ServerManager {
     String serverPort;
     Socket s_Socket;
 
-    protected void connectServer(){}
+    protected void connectServer(){
+
+    }
     protected void disconnectServer(){}
     protected void checkConnectServer(){}
 }
