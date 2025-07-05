@@ -1,10 +1,11 @@
 package serverManager;
 
+import javax.xml.crypto.Data;
 import java.net.Socket;
 
 public class ServerManager {
     String serverIP;
-    String serverPort;
+    int serverPort;
     Socket s_Socket;
 
     protected void connectServer(){
