@@ -9,11 +9,5 @@ import serverManager.*;
 public class Main {
 
     public static void main(String[] args) {
-        AuthServerManager manager = new AuthServerManager();
-        try {
-            manager.test();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
