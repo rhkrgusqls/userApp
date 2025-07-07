@@ -16,6 +16,8 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 public class AuthServerManager extends ServerManager {
+    private Channel channel;
+    private SslContext sslCtx;
     public AuthServerManager() {
         serverIP = "34.47.125.114";
         serverPort = 2020;
@@ -23,7 +25,7 @@ public class AuthServerManager extends ServerManager {
     }
 
     public void test() throws Exception {
-        SslContext sslCtx = SslContextBuilder.forClient() //클라이언트 인증서. 키 기반 설정
+        sslCtx = SslContextBuilder.forClient() //클라이언트 인증서. 키 기반 설정
                 .trustManager(new File("server-cert.pem")) //신용할 암호화 정보 파일
                 .build(); //SSLContext 인스턴스 생성
 
@@ -45,7 +47,7 @@ public class AuthServerManager extends ServerManager {
                                 protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) {
                                     String received = msg.toString(StandardCharsets.UTF_8);//문자열 변환설정
                                     System.out.println("Received from server: " + received);
-                                    /** 이쪽에 문자열 변환 및 함수실행 작성 명령어코드/데이터 받기 **/
+                                    /** 이쪽에 문자열 변환 및 함수실행 작성 명령어코드/데이터 받기 즉 이곳에서 컨트롤러 역할을 하면 된다. **/
                                 }
 
                                 @Override
@@ -56,13 +58,15 @@ public class AuthServerManager extends ServerManager {
 
                                 @Override
                                 public void channelActive(ChannelHandlerContext ctx) {
+
                                     String msg = "Hello Netty TLS Server!";
                                     ByteBuf buf = Unpooled.copiedBuffer(msg, StandardCharsets.UTF_8);//문자열 변환설정
                                     ctx.writeAndFlush(buf);//변환 문자열 전송 및 플러시
                                     System.out.println("Sent to server: " + msg);
 
                                     /**
-                                    private Channel channel;  // 클래스 멤버 변수로 채널 참조 저장
+                                     * 데이터 전송 테스트코드
+                                    private Channel channel;  // 클래스 멤버 변수로 채널 참조 저장 ()
 
                                     public void sendMessage(String msg) {
                                         if (channel != null && channel.isActive()) {
