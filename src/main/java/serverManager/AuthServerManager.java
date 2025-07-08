@@ -17,6 +17,7 @@ public class AuthServerManager extends ServerManager {
     public AuthServerManager() throws Exception {
         serverIP = "34.47.125.114";
         serverPort = 2020;
+        serverCertDir = "server-cert.pem";
         initSslContext();
         connectServer();
     }

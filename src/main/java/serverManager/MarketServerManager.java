@@ -20,6 +20,7 @@ public class MarketServerManager extends ServerManager{
     public MarketServerManager() throws Exception {
         serverIP = "34.47.125.114";  // 마켓 서버 IP
         serverPort = 2000;            // 마켓 서버 포트
+        serverCertDir = "server-cert.pem";// 추후 수정
         initSslContext();             // SSL 컨텍스트 초기화 (부모 클래스 메서드)
         connectServer();              // 서버에 연결 (부모 클래스 메서드)
     }
@@ -33,6 +34,7 @@ public class MarketServerManager extends ServerManager{
             protected void channelRead0(ChannelHandlerContext ctx, io.netty.buffer.ByteBuf msg) {
                 String received = msg.toString(java.nio.charset.StandardCharsets.UTF_8);
                 System.out.println("Received from server: " + received);
+                //이곳에 루프문 작성(마켓 API전용)
             }
 
             // 예외 발생 시 스택 트레이스 출력 및 채널 닫기

@@ -30,7 +30,7 @@ public class ServerManager {
     protected SslContext sslCtx;                    // SSL/TLS 설정 객체
     protected EventLoopGroup group;                 // 이벤트 루프 그룹 (I/O 이벤트 감시용 스레드풀)
     protected Channel channel;                       // 연결된 채널 (네트워크 입출력 통신 객체)
-    protected String serverCertDir = "server-cert.pem"; // 서버 인증서 경로
+    protected String serverCertDir; // 서버 인증서 경로
 
     // SSLContext 초기화: 클라이언트용 SSL 설정 생성 및 신뢰할 인증서 지정
     protected void initSslContext() throws Exception {
