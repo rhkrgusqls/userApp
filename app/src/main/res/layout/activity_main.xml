@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+
+    <!-- 상단 배너 -->
+    <ImageView
+            android:id="@+id/bannerImage"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="배너 이미지"
+            android:src="@drawable/main_banner2"/>
+
+    <!-- 스크롤 가능한 전체 콘텐츠 -->
+    <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/bannerImage"
+            android:layout_above="@id/bottomNavigation"
+            android:fillViewport="true">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <!-- 상의 -->
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="상의"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp" />
+
+            <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <!-- 상의 상품 1 -->
+                    <LinearLayout
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="12dp">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:scaleType="centerCrop"
+                                android:background="#EEEEEE"
+                                android:src="@drawable/placeholder_image"
+                                android:contentDescription="상품 이미지" />
+
+                        <TextView android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="라운드넥 티셔츠"
+                                  android:textSize="14sp" />
+
+                        <TextView android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="8,000₩"
+                                  android:textSize="13sp"
+                                  android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <!-- 상의 상품 2 -->
+                    <LinearLayout
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="12dp">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:background="#EEEEEE"
+                                android:src="@drawable/placeholder_image"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="상품 이미지" />
+
+                        <TextView android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="로고 후드티"
+                                  android:textSize="14sp" />
+
+                        <TextView android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="13,000₩"
+                                  android:textSize="13sp"
+                                  android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <!-- 상의 상품 3 -->
+                    <LinearLayout
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="12dp">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:background="#EEEEEE"
+                                android:src="@drawable/placeholder_image"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="상품 이미지" />
+
+                        <TextView android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="기본 맨투맨"
+                                  android:textSize="14sp" />
+
+                        <TextView android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="11,000₩"
+                                  android:textSize="13sp"
+                                  android:textColor="#000000" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- 하의 -->
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="하의"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp" />
+
+            <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <!-- 하의 상품 1 -->
+                    <LinearLayout
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="12dp">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:src="@drawable/placeholder_image"
+                                android:background="#EEEEEE"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="상품 이미지" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="코튼 팬츠"
+                                android:textSize="14sp" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="15,000₩"
+                                android:textSize="13sp"
+                                android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <!-- 하의 상품 2 -->
+                    <LinearLayout
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="12dp">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:src="@drawable/placeholder_image"
+                                android:background="#EEEEEE"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="상품 이미지" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="데님 쇼츠"
+                                android:textSize="14sp" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="17,000₩"
+                                android:textSize="13sp"
+                                android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <!-- 하의 상품 3 -->
+                    <LinearLayout
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="12dp">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:src="@drawable/placeholder_image"
+                                android:background="#EEEEEE"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="상품 이미지" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="트레이닝 팬츠"
+                                android:textSize="14sp" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="19,000₩"
+                                android:textSize="13sp"
+                                android:textColor="#000000" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- 셋업 -->
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="셋업"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp" />
+
+            <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <!-- 셋업 상품 1 -->
+                    <LinearLayout
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="12dp">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:src="@drawable/placeholder_image"
+                                android:background="#EEEEEE"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="상품 이미지" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="블랙 트레이닝 셋업"
+                                android:textSize="14sp" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="29,000₩"
+                                android:textSize="13sp"
+                                android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <!-- 셋업 상품 2 -->
+                    <LinearLayout
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="12dp">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:src="@drawable/placeholder_image"
+                                android:background="#EEEEEE"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="상품 이미지" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="아이보리 셋업"
+                                android:textSize="14sp" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="27,000₩"
+                                android:textSize="13sp"
+                                android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <!-- 셋업 상품 3 -->
+                    <LinearLayout
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="12dp">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:src="@drawable/placeholder_image"
+                                android:background="#EEEEEE"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="상품 이미지" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="그레이 스트링 셋업"
+                                android:textSize="14sp" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="30,000₩"
+                                android:textSize="13sp"
+                                android:textColor="#000000" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 하단 네비게이션 -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:background="#FFFFFF"
+            app:itemIconTint="@color/selector_nav_item"
+            app:itemTextColor="@color/selector_nav_item"
+            app:menu="@menu/bottom_nav_menu" />
+</RelativeLayout>

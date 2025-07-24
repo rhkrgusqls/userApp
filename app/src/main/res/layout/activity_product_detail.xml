@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="#FFFFFF">
+
+    <!-- 상단 바 -->
+    <RelativeLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+
+        <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@null"
+                android:src="@drawable/ic_back"
+                android:scaleType="fitCenter"
+                android:layout_alignParentStart="true" />
+
+        <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="하프팬팅 여름 반바지"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true" />
+
+        <ImageButton
+                android:id="@+id/cartButton"
+                android:layout_width="50dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="364dp"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_cart" />
+    </RelativeLayout>
+
+    <!-- 내용 -->
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <!-- 상품 이미지 -->
+            <ImageView
+                    android:id="@+id/productImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/main2"
+                    android:contentDescription="상품 이미지" />
+
+            <!-- 가격 -->
+            <TextView
+                    android:id="@+id/priceText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="52,000₩"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            <!-- 세부사항 -->
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="세부사항"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="배송비         무료" />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="색상            블랙, 아이보리" />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="치수            XL/L/M/S" />
+
+            <!-- 수량 선택 -->
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="24dp"
+                    android:paddingHorizontal="8dp">
+
+                <ImageButton
+                        android:id="@+id/minusButton"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:backgroundTint="#ffffff"
+                        android:background="@drawable/round_button_dg"
+                        android:padding="6dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_minus"
+                        android:contentDescription="수량 감소" />
+
+                <TextView
+                        android:id="@+id/quantityText"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:gravity="center"
+                        android:textSize="16sp" />
+
+                <ImageButton
+                        android:id="@+id/plusButton"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:backgroundTint="#ffffff"
+                        android:background="@drawable/round_button_dg"
+                        android:padding="6dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_plus"
+                        android:contentDescription="수량 증가" />
+
+                <TextView
+                        android:id="@+id/totalText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="52,000₩"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- 장바구니 버튼 -->
+            <Button
+                    android:id="@+id/addToCartButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="ADD TO CART"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:background="#000000"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 하단 바 -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#FFFFFF"
+            app:menu="@menu/bottom_nav_menu"
+            app:itemIconTint="@color/selector_nav_item"
+            app:itemTextColor="@color/selector_nav_item" />
+</LinearLayout>
