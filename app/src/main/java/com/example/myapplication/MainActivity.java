@@ -1,67 +1,55 @@
 package com.example.myapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.*;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView topProduct1, topProduct2, topProduct3;
-    private ImageView bottomProduct1, bottomProduct2, bottomProduct3;
-    private ImageView setProduct1, setProduct2, setProduct3;
-
+    private RecyclerView recyclerView;
+    private ProductAdapter adapter;
+    private List<ProductItem> productList;
     private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // XML 파일명에 맞게 설정
+        setContentView(R.layout.activity_main);
 
-        // 상품 이미지 연결
-        topProduct1 = findViewById(R.id.topProduct1);  // 아래에서 ID 할당할 거야
-        topProduct2 = findViewById(R.id.topProduct2);
-        topProduct3 = findViewById(R.id.topProduct3);
-
-        // 예시: 상품 클릭 → 상세 페이지 이동
-        topProduct1.setOnClickListener(v -> goToDetail("라운드넥 티셔츠", 8000));
-        topProduct2.setOnClickListener(v -> goToDetail("로고 후드티", 13000));
-        topProduct3.setOnClickListener(v -> goToDetail("기본 맨투맨", 11000));
-
-        // 하단 네비게이션
+        recyclerView = findViewById(R.id.recyclerView);
         bottomNav = findViewById(R.id.bottomNavigation);
-        bottomNav.setOnItemSelectedListener(navListener);
+
+        // 가로 스크롤 레이아웃 (상품 카드형)
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2)); // 세로 2열 카드 배치
+
+        productList = new ArrayList<>();
+
+        // 🔽 서버 DB 연결 시 아래를 Retrofit 등으로 대체
+        productList.add(new ProductItem("라운드넥 티셔츠", 8000, R.drawable.placeholder_image));
+        productList.add(new ProductItem("로고 후드티", 13000, R.drawable.placeholder_image));
+        productList.add(new ProductItem("기본 맨투맨", 11000, R.drawable.placeholder_image));
+        productList.add(new ProductItem("데님 팬츠", 17000, R.drawable.placeholder_image));
+        productList.add(new ProductItem("블랙 셋업", 29000, R.drawable.placeholder_image));
+
+        adapter = new ProductAdapter(this, productList);
+        recyclerView.setAdapter(adapter);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menu_home:
+                    return true;
+                case R.id.menu_search:
+                    // TODO: SearchActivity 연동
+                    return true;
+                case R.id.menu_mypage:
+                    return true;
+            }
+            return false;
+        });
     }
-
-    private void goToDetail(String productName, int price) {
-        Log.d("ProductClick", "상품: " + productName + ", 가격: " + price + "원");
-
-        Intent intent = new Intent(MainActivity.this, ProductDetailActivity.class);
-        intent.putExtra("productName", productName);
-        intent.putExtra("productPrice", price);
-        startActivity(intent);
-    }
-
-    private final NavigationBarView.OnItemSelectedListener navListener = item -> {
-        switch (item.getItemId()) {
-            case R.id.menu_home:
-                Toast.makeText(this, "홈", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.menu_search:
-                startActivity(new Intent(this, SearchActivity.class));
-                return true;
-            case R.id.menu_mypage:
-                Toast.makeText(this, "마이페이지", Toast.LENGTH_SHORT).show();
-                return true;
-        }
-        return false;
-    };
 }
