@@ -33,10 +33,16 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
 }
 
 dependencies {
-
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
@@ -44,5 +50,8 @@ dependencies {
     implementation(libs.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

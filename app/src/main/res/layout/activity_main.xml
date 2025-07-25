@@ -61,7 +61,6 @@
                                 android:layout_height="150dp"
                                 android:scaleType="centerCrop"
                                 android:background="#EEEEEE"
-                                android:src="@drawable/placeholder_image"
                                 android:contentDescription="상품 이미지" />
 
                         <TextView android:layout_width="wrap_content"
@@ -87,7 +86,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
                                 android:background="#EEEEEE"
-                                android:src="@drawable/placeholder_image"
                                 android:scaleType="centerCrop"
                                 android:contentDescription="상품 이미지" />
 
@@ -114,7 +112,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
                                 android:background="#EEEEEE"
-                                android:src="@drawable/placeholder_image"
                                 android:scaleType="centerCrop"
                                 android:contentDescription="상품 이미지" />
 
@@ -162,7 +159,6 @@
                         <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
-                                android:src="@drawable/placeholder_image"
                                 android:background="#EEEEEE"
                                 android:scaleType="centerCrop"
                                 android:contentDescription="상품 이미지" />
@@ -191,7 +187,6 @@
                         <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
-                                android:src="@drawable/placeholder_image"
                                 android:background="#EEEEEE"
                                 android:scaleType="centerCrop"
                                 android:contentDescription="상품 이미지" />
@@ -220,7 +215,6 @@
                         <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
-                                android:src="@drawable/placeholder_image"
                                 android:background="#EEEEEE"
                                 android:scaleType="centerCrop"
                                 android:contentDescription="상품 이미지" />
@@ -271,7 +265,6 @@
                         <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
-                                android:src="@drawable/placeholder_image"
                                 android:background="#EEEEEE"
                                 android:scaleType="centerCrop"
                                 android:contentDescription="상품 이미지" />
@@ -300,7 +293,6 @@
                         <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
-                                android:src="@drawable/placeholder_image"
                                 android:background="#EEEEEE"
                                 android:scaleType="centerCrop"
                                 android:contentDescription="상품 이미지" />
@@ -329,7 +321,6 @@
                         <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
-                                android:src="@drawable/placeholder_image"
                                 android:background="#EEEEEE"
                                 android:scaleType="centerCrop"
                                 android:contentDescription="상품 이미지" />

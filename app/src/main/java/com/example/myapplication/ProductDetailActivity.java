@@ -74,7 +74,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         // 하단 네비게이션 처리
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.MainActivity:
+                case R.id.menu_home:
                     startActivity(new Intent(this, MainActivity.class));
                     return true;
                 case R.id.menu_search:

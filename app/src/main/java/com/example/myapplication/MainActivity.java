@@ -24,12 +24,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         bottomNav = findViewById(R.id.bottomNavigation);
 
-        // 가로 스크롤 레이아웃 (상품 카드형)
+        // 가로 스크롤 레이아웃
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2)); // 세로 2열 카드 배치
 
         productList = new ArrayList<>();
 
-        // 🔽 서버 DB 연결 시 아래를 Retrofit 등으로 대체
+        // 서버 DB 연결 시 아래를 Retrofit 등으로 대체
         productList.add(new ProductItem("라운드넥 티셔츠", 8000, R.drawable.placeholder_image));
         productList.add(new ProductItem("로고 후드티", 13000, R.drawable.placeholder_image));
         productList.add(new ProductItem("기본 맨투맨", 11000, R.drawable.placeholder_image));
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.menu_home:
                     return true;
                 case R.id.menu_search:
-                    // TODO: SearchActivity 연동
+                    // TODO - SearchActivity 연동
                     return true;
                 case R.id.menu_mypage:
                     return true;
