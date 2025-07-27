@@ -16,12 +16,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.sql.*;
 import java.util.*;
 import model.Product;
-//123
-public class HttpsServer {
-    private static final int PORT = 2010;
+
+public class ApiServer {
+    private static final int PORT = 2020;
     
     public void start() throws Exception {
         // SSL 컨텍스트 생성 (자체 서명된 인증서 사용)
@@ -46,12 +45,12 @@ public class HttpsServer {
                             
                             p.addLast(new StringDecoder(CharsetUtil.UTF_8));
                             p.addLast(new StringEncoder(CharsetUtil.UTF_8));
-                            p.addLast(new HttpsServerHandler());
+                            p.addLast(new ApiServerHandler());
                         }
                     });
             
             ChannelFuture f = b.bind(PORT).sync();
-            System.out.println("[Log][Server] HTTPS server started on port " + PORT);
+            System.out.println("[Log][ApiServer] HTTPS API server started on port " + PORT);
             
             f.channel().closeFuture().sync();
         } finally {
@@ -67,28 +66,23 @@ public class HttpsServer {
                     new File("server-cert.pem"),
                     new File("server-key.pem")
             ).build();
-            System.out.println("[Log][Server] SSL 컨텍스트 생성 성공");
+            System.out.println("[Log][ApiServer] SSL 컨텍스트 생성 성공");
             return sslContext;
         } catch (Exception e) {
-            System.out.println("[Log][Server] SSL 인증서 파일을 찾을 수 없습니다.");
-            System.out.println("[Log][Server] 오류: " + e.getMessage());
-            System.out.println("[Log][Server] SSL 인증서를 생성해야 합니다!");
+            System.out.println("[Log][ApiServer] SSL 인증서 파일을 찾을 수 없습니다.");
+            System.out.println("[Log][ApiServer] 오류: " + e.getMessage());
+            System.out.println("[Log][ApiServer] SSL 인증서를 생성해야 합니다!");
             throw new RuntimeException("SSL 인증서가 필요합니다", e);
         }
     }
     
-    private static class HttpsServerHandler extends SimpleChannelInboundHandler<String> {
+    private static class ApiServerHandler extends SimpleChannelInboundHandler<String> {
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-            System.out.println("[Log][Server] Received: " + msg);
+            System.out.println("[Log][ApiServer] Received: " + msg);
             
-            // 로그인 명령어 처리
-            if (msg.startsWith("LOGIN%")) {
-                String response = handleLogin(msg);
-                ctx.writeAndFlush(response + "\n");
-            } 
             // 상품목록 요청 처리
-            else if (msg.startsWith("GET_PRODUCT_LIST%")) {
+            if (msg.startsWith("GET_PRODUCT_LIST%")) {
                 String response = getAllProductsFromDB();
                 ctx.writeAndFlush(response + "\n");
             } else {
@@ -98,45 +92,12 @@ public class HttpsServer {
         
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
-            System.out.println("[Log][Server] Client connected: " + ctx.channel().remoteAddress());
+            System.out.println("[Log][ApiServer] Client connected: " + ctx.channel().remoteAddress());
         }
         
         @Override
         public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-            System.out.println("[Log][Server] Client disconnected: " + ctx.channel().remoteAddress());
-        }
-        
-        private String handleLogin(String command) {
-            // LOGIN%id$testuser&password$1234% 형식 파싱
-            try {
-                String[] parts = command.split("%");
-                if (parts.length == 3) { // LOGIN, id$testuser&password$1234, 빈문자열
-                    String[] params = parts[1].split("&");
-                    String id = params[0].split("\\$")[1];
-                    String password = params[1].split("\\$")[1];
-                    
-                    System.out.println("[Log][Server] Login attempt - ID: " + id + ", Password: " + password);
-                    
-                                    // 데이터베이스에서 직접 인증 확인
-                return queryDatabase(id, password);
-                }
-            } catch (Exception e) {
-                System.out.println("[Log][Server] Error parsing login command: " + e.getMessage());
-            }
-            
-            return "LOGIN_FAILED:Invalid command format";
-        }
-    }
-    
-    // 기존 데이터베이스 연결 방식 사용
-    private String queryDatabase(String id, String password) {
-        try {
-            // 기존에 이미 구현된 데이터베이스 연결 방식 사용
-            // 실제로는 이미 데이터베이스 연결이 잘 되어 있음
-            return "login%&refreshToken$jwt_token_here";
-        } catch (Exception e) {
-            System.out.println("[Log][Server] 데이터베이스 연결 실패: " + e.getMessage());
-            return "login%error%Database connection failed";
+            System.out.println("[Log][ApiServer] Client disconnected: " + ctx.channel().remoteAddress());
         }
     }
     
@@ -163,7 +124,7 @@ public class HttpsServer {
             return response.toString();
             
         } catch (Exception e) {
-            System.out.println("[Log][Server] 상품목록 조회 실패: " + e.getMessage());
+            System.out.println("[Log][ApiServer] 상품목록 조회 실패: " + e.getMessage());
             return "productList%error%Database connection failed";
         }
     }
@@ -184,7 +145,7 @@ public class HttpsServer {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = in.readLine();
             
-            System.out.println("[Log][Server] 프록시 서버 응답: " + response);
+            System.out.println("[Log][ApiServer] 프록시 서버 응답: " + response);
             
             if (response != null && response.startsWith("productList%&products$")) {
                 String productsData = response.substring("productList%&products$".length());
@@ -204,10 +165,10 @@ public class HttpsServer {
             }
             
             socket.close();
-            System.out.println("[Log][Server] 프록시 서버에서 상품목록 받기 완료: " + productList.size() + "개");
+            System.out.println("[Log][ApiServer] 프록시 서버에서 상품목록 받기 완료: " + productList.size() + "개");
             
         } catch (Exception e) {
-            System.out.println("[Log][Server] 프록시 서버 연결 실패: " + e.getMessage());
+            System.out.println("[Log][ApiServer] 프록시 서버 연결 실패: " + e.getMessage());
             e.printStackTrace();
         }
         

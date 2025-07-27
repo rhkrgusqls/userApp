@@ -15,11 +15,21 @@ public class Main {
         // Spring Boot 웹 서버 시작
         SpringApplication.run(Main.class, args);
         
-        // HTTPS 서버 시작 (별도 스레드)
+        // Auth 서버 시작 (포트 2000) - 별도 스레드
         new Thread(() -> {
-            HttpsServer server = new HttpsServer();
+            AuthServer authServer = new AuthServer();
             try {
-                server.start();
+                authServer.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+        
+        // API 서버 시작 (포트 2020) - 별도 스레드
+        new Thread(() -> {
+            ApiServer apiServer = new ApiServer();
+            try {
+                apiServer.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -20,8 +20,9 @@ import java.util.ArrayList;
 
 public class NettyClient {
     private static final String TAG = "NettyClient";
-    private static final String SERVER_HOST = "10.0.2.2"; // Android 에뮬레이터에서 호스트 접근
-    private static final int SERVER_PORT = 2010;
+    private static final String SERVER_HOST = "0.0.0.0"; // 서버 IP 주소
+    private static final int AUTH_PORT = 2000; // 로그인, 회원가입 요청
+    private static final int API_PORT = 2020; // API 기능 수행 요청
     
     private Channel channel;
     private SslContext sslCtx;
@@ -69,9 +70,9 @@ public class NettyClient {
             try {
                 String loginCommand = String.format("LOGIN%%id$%s&password$%s%%", username, password);
                 
-                // SSL 핸드셰이크를 통한 로그인 시도
-                Log.d(TAG, "SSL 핸드셰이크를 통한 로그인 시도");
-                String response = sendCommand(loginCommand);
+                // SSL 핸드셰이크를 통한 로그인 시도 (포트 2000)
+                Log.d(TAG, "SSL 핸드셰이크를 통한 로그인 시도 (포트 " + AUTH_PORT + ")");
+                String response = sendCommand(loginCommand, AUTH_PORT);
                 Log.d(TAG, "sendCommand() 완료, 응답: " + response);
                 
                 if (response != null) {
@@ -107,7 +108,7 @@ public class NettyClient {
     }
     
     // SSL 없이 연결하는 메서드 추가
-    private String sendCommandWithoutSSL(String command) throws Exception {
+    private String sendCommandWithoutSSL(String command, int port) throws Exception {
         responseFuture = new CompletableFuture<>();
         
         EventLoopGroup group = new NioEventLoopGroup();
@@ -146,7 +147,7 @@ public class NettyClient {
                         }
                     });
             
-            ChannelFuture f = b.connect(SERVER_HOST, SERVER_PORT).sync();
+            ChannelFuture f = b.connect(SERVER_HOST, port).sync();
             channel = f.channel();
             
             // 응답 대기 (5초 타임아웃)
@@ -158,7 +159,7 @@ public class NettyClient {
         }
     }
     
-    private String sendCommand(String command) throws Exception {
+    private String sendCommand(String command, int port) throws Exception {
         responseFuture = new CompletableFuture<>();
         
         EventLoopGroup group = new NioEventLoopGroup();
@@ -176,7 +177,7 @@ public class NettyClient {
                             // SSL 핸들러 추가 (반드시 필요)
                             if (sslCtx != null) {
                                 Log.d(TAG, "SSL 핸들러 추가");
-                                p.addLast(sslCtx.newHandler(ch.alloc(), SERVER_HOST, SERVER_PORT));
+                                p.addLast(sslCtx.newHandler(ch.alloc(), SERVER_HOST, port));
                             } else {
                                 Log.e(TAG, "SSL 컨텍스트가 없습니다");
                                 throw new RuntimeException("SSL 컨텍스트가 없습니다");
@@ -237,8 +238,8 @@ public class NettyClient {
                         }
                     });
             
-            Log.d(TAG, "SSL 서버에 연결 시도 중...");
-            ChannelFuture f = b.connect(SERVER_HOST, SERVER_PORT).sync();
+            Log.d(TAG, "SSL 서버에 연결 시도 중... (포트 " + port + ")");
+            ChannelFuture f = b.connect(SERVER_HOST, port).sync();
             channel = f.channel();
             
             Log.d(TAG, "SSL 연결 성공, 응답 대기 중...");
@@ -260,8 +261,8 @@ public class NettyClient {
             try {
                 String command = "GET_PRODUCT_LIST%";
                 
-                Log.d(TAG, "상품목록 요청 전송");
-                String response = sendCommand(command);
+                Log.d(TAG, "상품목록 요청 전송 (포트 " + API_PORT + ")");
+                String response = sendCommand(command, API_PORT);
                 Log.d(TAG, "상품목록 응답: " + response);
                 
                 // 응답에서 개행문자 제거
