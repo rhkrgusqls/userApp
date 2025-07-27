@@ -19,8 +19,8 @@ public class AuthServerManager extends ServerManager {
     private Channel channel;
     private SslContext sslCtx;
     public AuthServerManager() {
-        serverIP = "34.47.125.114";
-        serverPort = 2020;
+        serverIP = "localhost";
+        serverPort = 2010;
         connectServer(); // 서버 접속 메서드 호출
     }
 
@@ -37,6 +37,7 @@ public class AuthServerManager extends ServerManager {
             Bootstrap b = new Bootstrap();//클라이언트 부스트랩 생성(소켓 연결 설정)
             b.group(group)//이벤트 루프 그룹 설정
                     .channel(NioSocketChannel.class)//소켓채널타입 지정
+                    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)//연결 타임아웃 5초
                     .handler(new ChannelInitializer<Channel>() { //채널 초기화 파이프라인 설정
                         @Override
                         protected void initChannel(Channel ch) throws Exception {

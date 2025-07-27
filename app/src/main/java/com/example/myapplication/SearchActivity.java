@@ -43,17 +43,22 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        // 하단 네비게이션 처리
+        // 하단 네비게이션 처리 (하드코딩 수정)
         bottomNavigation.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.menu_home:
-                    startActivity(new Intent(this, MainActivity.class));
-                    return true;
-                case R.id.menu_search:
-                    return true; // 현재 화면
-                case R.id.menu_mypage:
-                    Toast.makeText(this, "마이페이지는 아직 없습니다", Toast.LENGTH_SHORT).show();
-                    return true;
+            int itemId = item.getItemId();
+            Log.d("Search", "선택된 메뉴 ID: " + itemId);
+            
+            if (itemId == R.id.nav_home) {
+                Log.d("Search", "홈 메뉴 선택");
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_search) {
+                Log.d("Search", "검색 메뉴 선택 (현재 화면)");
+                return true; // 현재 화면
+            } else if (itemId == R.id.nav_mypage) {
+                Log.d("Search", "마이페이지 메뉴 선택");
+                Toast.makeText(this, "마이페이지 기능 준비 중", Toast.LENGTH_SHORT).show();
+                return true;
             }
             return false;
         });

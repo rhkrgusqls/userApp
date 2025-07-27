@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -71,18 +72,23 @@ public class ProductDetailActivity extends AppCompatActivity {
             // TODO: DB 연결 시 API 요청
         });
 
-        // 하단 네비게이션 처리
+        // 하단 네비게이션 처리 (하드코딩 수정)
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.menu_home:
-                    startActivity(new Intent(this, MainActivity.class));
-                    return true;
-                case R.id.menu_search:
-                    startActivity(new Intent(this, SearchActivity.class));
-                    return true;
-                case R.id.menu_mypage:
-                    Toast.makeText(this, "마이페이지는 아직 없습니다", Toast.LENGTH_SHORT).show();
-                    return true;
+            int itemId = item.getItemId();
+            Log.d("ProductDetail", "선택된 메뉴 ID: " + itemId);
+            
+            if (itemId == R.id.nav_home) {
+                Log.d("ProductDetail", "홈 메뉴 선택");
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_search) {
+                Log.d("ProductDetail", "검색 메뉴 선택");
+                startActivity(new Intent(this, SearchActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_mypage) {
+                Log.d("ProductDetail", "마이페이지 메뉴 선택");
+                Toast.makeText(this, "마이페이지 기능 준비 중", Toast.LENGTH_SHORT).show();
+                return true;
             }
             return false;
         });

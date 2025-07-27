@@ -1,0 +1,10 @@
+C:\userapp\src\main\java\clientapp\ClientAppApplicationTests.java
+C:\userapp\src\main\java\controller\AuthController.java
+C:\userapp\src\main\java\mainClientApp\Main.java
+C:\userapp\src\main\java\model\LoginRequest.java
+C:\userapp\src\main\java\model\LoginResponse.java
+C:\userapp\src\main\java\serverManager\AuthServerManager.java
+C:\userapp\src\main\java\serverManager\HttpServer.java
+C:\userapp\src\main\java\serverManager\HttpsServer.java
+C:\userapp\src\main\java\serverManager\MarketServerManager.java
+C:\userapp\src\main\java\serverManager\ServerManager.java

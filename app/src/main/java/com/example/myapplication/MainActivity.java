@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.*;
 
@@ -19,37 +21,61 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        
+        try {
+            Log.d("MainActivity", "onCreate 시작");
+            setContentView(R.layout.activity_main);
+            Log.d("MainActivity", "레이아웃 로드 성공");
 
-        recyclerView = findViewById(R.id.recyclerView);
-        bottomNav = findViewById(R.id.bottomNavigation);
+            recyclerView = findViewById(R.id.recyclerView);
+            bottomNav = findViewById(R.id.bottomNavigation);
+            Log.d("MainActivity", "위젯 찾기 성공");
 
-        // 가로 스크롤 레이아웃
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2)); // 세로 2열 카드 배치
+            // RecyclerView 설정
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+            productList = new ArrayList<>();
 
-        productList = new ArrayList<>();
+            // 상품 데이터 추가
+            productList.add(new ProductItem("라운드넥 티셔츠", 8000, R.drawable.placeholder_image));
+            productList.add(new ProductItem("로고 후드티", 13000, R.drawable.placeholder_image));
+            productList.add(new ProductItem("기본 맨투맨", 11000, R.drawable.placeholder_image));
+            productList.add(new ProductItem("데님 팬츠", 17000, R.drawable.placeholder_image));
+            productList.add(new ProductItem("블랙 셋업", 29000, R.drawable.placeholder_image));
 
-        // 서버 DB 연결 시 아래를 Retrofit 등으로 대체
-        productList.add(new ProductItem("라운드넥 티셔츠", 8000, R.drawable.placeholder_image));
-        productList.add(new ProductItem("로고 후드티", 13000, R.drawable.placeholder_image));
-        productList.add(new ProductItem("기본 맨투맨", 11000, R.drawable.placeholder_image));
-        productList.add(new ProductItem("데님 팬츠", 17000, R.drawable.placeholder_image));
-        productList.add(new ProductItem("블랙 셋업", 29000, R.drawable.placeholder_image));
+            adapter = new ProductAdapter(this, productList);
+            recyclerView.setAdapter(adapter);
+            Log.d("MainActivity", "RecyclerView 설정 완료");
 
-        adapter = new ProductAdapter(this, productList);
-        recyclerView.setAdapter(adapter);
-
-        bottomNav.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.menu_home:
+            // BottomNavigation 설정 (하드코딩 수정)
+            bottomNav.setOnItemSelectedListener(item -> {
+                int itemId = item.getItemId();
+                Log.d("MainActivity", "선택된 메뉴 ID: " + itemId);
+                
+                if (itemId == R.id.nav_home) {
+                    Log.d("MainActivity", "홈 메뉴 선택");
+                    // 홈 화면은 이미 현재 화면이므로 아무것도 하지 않음
                     return true;
-                case R.id.menu_search:
-                    // TODO - SearchActivity 연동
+                } else if (itemId == R.id.nav_search) {
+                    Log.d("MainActivity", "검색 메뉴 선택");
+                    // SearchActivity로 이동
+                    Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                    startActivity(searchIntent);
                     return true;
-                case R.id.menu_mypage:
+                } else if (itemId == R.id.nav_mypage) {
+                    Log.d("MainActivity", "마이페이지 메뉴 선택");
+                    // 마이페이지 기능 (나중에 구현)
+                    android.widget.Toast.makeText(MainActivity.this, "마이페이지 기능 준비 중", android.widget.Toast.LENGTH_SHORT).show();
                     return true;
-            }
-            return false;
-        });
+                }
+                return false;
+            });
+            Log.d("MainActivity", "BottomNavigation 설정 완료");
+            
+            android.widget.Toast.makeText(this, "MainActivity 시작 성공!", android.widget.Toast.LENGTH_SHORT).show();
+            
+        } catch (Exception e) {
+            Log.e("MainActivity", "MainActivity 로드 실패", e);
+            android.widget.Toast.makeText(this, "MainActivity 오류: " + e.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+        }
     }
 }

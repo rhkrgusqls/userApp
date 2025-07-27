@@ -1,0 +1,15 @@
+serverManager\HttpsServer$1.class
+serverManager\HttpsServer$HttpsServerHandler.class
+serverManager\MarketServerManager.class
+model\LoginRequest.class
+serverManager\AuthServerManager$1$1.class
+serverManager\AuthServerManager$1.class
+serverManager\HttpServer$HttpServerHandler.class
+serverManager\HttpServer.class
+model\LoginResponse.class
+mainClientApp\Main.class
+serverManager\HttpsServer.class
+serverManager\HttpServer$1.class
+serverManager\ServerManager.class
+serverManager\AuthServerManager.class
+controller\AuthController.class
