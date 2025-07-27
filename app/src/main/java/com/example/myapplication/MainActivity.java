@@ -35,12 +35,8 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
             productList = new ArrayList<>();
 
-            // 상품 데이터 추가
-            productList.add(new ProductItem("라운드넥 티셔츠", 8000, R.drawable.placeholder_image));
-            productList.add(new ProductItem("로고 후드티", 13000, R.drawable.placeholder_image));
-            productList.add(new ProductItem("기본 맨투맨", 11000, R.drawable.placeholder_image));
-            productList.add(new ProductItem("데님 팬츠", 17000, R.drawable.placeholder_image));
-            productList.add(new ProductItem("블랙 셋업", 29000, R.drawable.placeholder_image));
+            // 서버에서 상품목록 요청
+            loadProductsFromServer();
 
             adapter = new ProductAdapter(this, productList);
             recyclerView.setAdapter(adapter);
@@ -77,5 +73,41 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity", "MainActivity 로드 실패", e);
             android.widget.Toast.makeText(this, "MainActivity 오류: " + e.getMessage(), android.widget.Toast.LENGTH_LONG).show();
         }
+    }
+    
+    // 서버에서 상품목록 로드
+    private void loadProductsFromServer() {
+        try {
+            NettyClient nettyClient = new NettyClient();
+            nettyClient.getProducts(new NettyClient.ProductCallback() {
+                @Override
+                public void onSuccess(List<ProductItem> products) {
+                    runOnUiThread(() -> {
+                        productList.clear();
+                        productList.addAll(products);
+                        adapter.notifyDataSetChanged();
+                        Log.d("MainActivity", "상품목록 로드 성공: " + products.size() + "개");
+                    });
+                }
+
+                @Override
+                public void onError(String error) {
+                    runOnUiThread(() -> {
+                        Log.e("MainActivity", "상품목록 로드 실패: " + error);
+                        // 오류 시 기본 상품 표시
+                        loadDefaultProducts();
+                    });
+                }
+            });
+        } catch (Exception e) {
+            Log.e("MainActivity", "NettyClient 생성 실패", e);
+            loadDefaultProducts();
+        }
+    }
+    
+    // 기본 상품목록 (오류 시 사용)
+    private void loadDefaultProducts() {
+        productList.add(new ProductItem("상품 로드 실패", 0, R.drawable.placeholder_image));
+        adapter.notifyDataSetChanged();
     }
 }

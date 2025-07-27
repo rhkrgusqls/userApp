@@ -15,6 +15,8 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.List;
+import java.util.ArrayList;
 
 public class NettyClient {
     private static final String TAG = "NettyClient";
@@ -27,6 +29,11 @@ public class NettyClient {
     
     public interface LoginCallback {
         void onSuccess(String response);
+        void onError(String error);
+    }
+    
+    public interface ProductCallback {
+        void onSuccess(List<ProductItem> products);
         void onError(String error);
     }
     
@@ -160,6 +167,7 @@ public class NettyClient {
             b.group(group)
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000) // SSL 핸드셰이크를 위해 타임아웃 증가
+                    .option(ChannelOption.SO_KEEPALIVE, true) // 연결 유지 설정
                     .handler(new ChannelInitializer<Channel>() {
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
@@ -191,6 +199,8 @@ public class NettyClient {
                                         Log.d(TAG, "JWT 토큰 응답 감지");
                                     } else if (received.startsWith("login%error%")) {
                                         Log.e(TAG, "오류 응답 감지");
+                                    } else if (received.startsWith("PRODUCTS:")) {
+                                        Log.d(TAG, "상품목록 응답 감지");
                                     } else {
                                         Log.w(TAG, "알 수 없는 응답 형식: " + received);
                                     }
@@ -199,12 +209,16 @@ public class NettyClient {
                                     Log.d(TAG, "responseFuture.complete() 호출");
                                     responseFuture.complete(received);
                                     Log.d(TAG, "responseFuture.complete() 완료");
+                                    
+                                    // 연결 유지 (자동으로 닫히지 않음)
+                                    Log.d(TAG, "연결 유지 중...");
                                 }
                                 
                                 @Override
                                 public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
                                     Log.e(TAG, "SSL 채널 오류", cause);
                                     responseFuture.completeExceptionally(cause);
+                                    // 오류 시에만 연결 종료
                                     ctx.close();
                                 }
                                 
@@ -235,7 +249,64 @@ public class NettyClient {
             return response;
             
         } finally {
-            group.shutdownGracefully();
+            // 연결 유지를 위해 group을 즉시 종료하지 않음
+            // group.shutdownGracefully();
         }
+    }
+    
+    // 상품목록 요청
+    public void getProducts(ProductCallback callback) {
+        new Thread(() -> {
+            try {
+                String command = "GET_PRODUCT_LIST%";
+                
+                Log.d(TAG, "상품목록 요청 전송");
+                String response = sendCommand(command);
+                Log.d(TAG, "상품목록 응답: " + response);
+                
+                // 응답에서 개행문자 제거
+                if (response != null) {
+                    response = response.trim();
+                }
+                
+                if (response != null && response.startsWith("productList%&products$")) {
+                    // 응답 파싱: "productList%&products$1,상품명1,재고수량1|2,상품명2,재고수량2"
+                    String productsData = response.substring("productList%&products$".length());
+                    List<ProductItem> products = parseProducts(productsData);
+                    callback.onSuccess(products);
+                } else if (response != null && response.startsWith("productList%error%")) {
+                    String errorMessage = response.substring("productList%error%".length());
+                    callback.onError(errorMessage);
+                } else {
+                    callback.onError("알 수 없는 서버 응답");
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "상품목록 요청 오류", e);
+                callback.onError("네트워크 오류: " + e.getMessage());
+            }
+        }).start();
+    }
+    
+    // 상품 데이터 파싱
+    private List<ProductItem> parseProducts(String productsData) {
+        List<ProductItem> products = new ArrayList<>();
+        try {
+            String[] productItems = productsData.split("\\|");
+                            for (String item : productItems) {
+                    if (!item.trim().isEmpty()) {
+                        String[] parts = item.split(",");
+                        if (parts.length >= 4) {
+                            int id = Integer.parseInt(parts[0]);
+                            String name = parts[1];
+                            int stock = Integer.parseInt(parts[2]);
+                            int price = Integer.parseInt(parts[3]);
+                            products.add(new ProductItem(name, price, R.drawable.placeholder_image));
+                        }
+                    }
+                }
+        } catch (Exception e) {
+            Log.e(TAG, "상품 데이터 파싱 오류", e);
+        }
+        return products;
     }
 } 
